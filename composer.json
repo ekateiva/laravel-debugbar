@@ -9,9 +9,15 @@
             "email": "barryvdh@gmail.com"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/ekateiva/php-debugbar"
+        }
+    ],
     "require": {
         "php": ">=7.0",
-        "maximebf/debugbar": "~1.15.0",
+        "maximebf/debugbar": "dev-feature/support-monolog-v2",
         "illuminate/routing": "^5.5|^6",
         "illuminate/session": "^5.5|^6",
         "illuminate/support": "^5.5|^6",

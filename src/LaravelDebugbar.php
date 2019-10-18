@@ -14,7 +14,9 @@ use Barryvdh\Debugbar\DataCollector\SessionCollector;
 use Barryvdh\Debugbar\DataCollector\RequestCollector;
 use Barryvdh\Debugbar\DataCollector\ViewCollector;
 use Barryvdh\Debugbar\Storage\FilesystemStorage;
+use DebugBar\Bridge\AbstractMonologCollector;
 use DebugBar\Bridge\MonologCollector;
+use DebugBar\Bridge\MonologV2Collector;
 use DebugBar\Bridge\SwiftMailer\SwiftLogCollector;
 use DebugBar\Bridge\SwiftMailer\SwiftMailCollector;
 use DebugBar\DataCollector\ConfigCollector;
@@ -272,7 +274,7 @@ class LaravelDebugbar extends DebugBar
                         }
                     );
                 } else {
-                    $this->addCollector(new MonologCollector($this->getMonologLogger()));
+                    $this->addCollector($this->getMonologCollector());
                 }
             } catch (\Exception $e) {
                 $this->addThrowable(
@@ -1093,5 +1095,19 @@ class LaravelDebugbar extends DebugBar
         }
 
         return $logger;
+    }
+
+    /**
+     * @return AbstractMonologCollector
+     * @throws Exception
+     */
+    private function getMonologCollector()
+    {
+        $logger = $this->getMonologLogger();
+        if (class_exists('DebugBar\Bridge\MonologV2Collector')) {
+            return new MonologV2Collector($logger);
+        }
+
+        return new MonologCollector($logger);
     }
 }
